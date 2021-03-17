@@ -22,12 +22,17 @@ export default function Home({ countries }) {
     setKeyword(e.target.value.toLowerCase())
   }
 
-  return <Layout>
-    <div className={styles.counts}>Found {countries.length} countries</div>
-
-    <SearchInput placeholder='Filter by Name, Region, or Subregion' onChange={handleChange} />
-    <CountriesTable countries={filteredContries} />
-  </Layout>
+  return (
+    <Layout>
+      <div className={styles.input_container}>
+        <div className={styles.counts}>Found {countries.length} countries</div>
+        <div className={styles.input}>
+          <SearchInput placeholder='Filter by Name, Region, or Subregion' onChange={handleChange} />
+        </div>
+      </div>
+      <CountriesTable countries={filteredContries} />
+    </Layout>
+  )
 }
 
 export const getStaticProps = async () => {

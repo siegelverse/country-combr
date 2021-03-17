@@ -1,7 +1,31 @@
+import { useEffect, useState } from 'react';
+import { Brightness4Rounded } from '@material-ui/icons';
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from './Layout.module.css';
 
 const Layout = ({ children, title = 'CountryCombr' }) => {
+    const [theme, setTheme] = useState('light');
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'))
+        setTheme(localStorage.getItem('theme'))
+    }, [])
+
+    const toggleTheme = () => {
+        if (theme === 'light') {
+            saveTheme('dark')
+        } else {
+            saveTheme('light')
+        }
+    }
+
+    const saveTheme = (theme) => {
+        setTheme(theme)
+        localStorage.setItem('theme', theme)
+        document.documentElement.setAttribute('data-theme', theme)
+    }
+
     return (
         <div className={styles.container}>
             <Head>
@@ -10,7 +34,12 @@ const Layout = ({ children, title = 'CountryCombr' }) => {
             </Head>
 
             <header className={styles.header}>
-                <img src='/logo.svg' alt='logo' />
+                <Link href='/'>
+                    <img src='/logo.svg' alt='logo' />
+                </Link>
+                <button className={styles.theme_toggle} onClick={toggleTheme}>
+                    <Brightness4Rounded />
+                </button>
             </header>
     
             <main className={styles.main}>
@@ -18,7 +47,7 @@ const Layout = ({ children, title = 'CountryCombr' }) => {
             </main>
     
             <footer className={styles.footer}>
-                <a href='http://www.marcus-siegel.dev'>Marcus Siegel</a>
+                <a href='http://www.marcus-siegel.dev'>© Marcus Siegel</a>
             </footer>
         </div>
     )
